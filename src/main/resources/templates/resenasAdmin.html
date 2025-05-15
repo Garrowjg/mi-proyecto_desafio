@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Reseñas - BookLab</title>
+    <link rel="stylesheet" href="/estilos/resenas.css"> <!-- Asegúrate de usar tu CSS principal -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+</head>
+<body>
+<header>
+    <div class="logo">
+        <h1>BookLab-Admin</h1>
+    </div>
+    <nav>
+        <ul>
+            <li><a href="/api/admin">Inicio</a></li>
+
+            <li><a href="" class="activo">Reseñas</a></li>
+        </ul>
+    </nav>
+</header>
+
+<main class="contenido">
+    <section class="resenas">
+        <h2>Reseñas de Usuarios</h2>
+        <table class="tabla-resenas">
+            <thead>
+            <tr>
+                <th>Nombre</th>
+                <th>Comentario</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="resena : ${resenas}">
+                <td th:text="${resena.nombre}">Nombre</td>
+                <td th:text="${resena.comentario}">Comentario</td>
+            </tr>
+            </tbody>
+        </table>
+    </section>
+</main>
+
+<footer>
+    <p>&copy; 2025 BookLab. Todos los derechos reservados.</p>
+</footer>
+</body>
+</html>
+

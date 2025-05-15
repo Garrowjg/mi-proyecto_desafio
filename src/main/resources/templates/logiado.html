@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BookLab Biblioteca</title>
+    <link rel="stylesheet" href="/estilos/logiado.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
+    <style>
+        /* Estilos para el mensaje de confirmación */
+        .mensaje-exito {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background-color: #4CAF50;
+            color: white;
+            padding: 15px 25px;
+            border-radius: 5px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            z-index: 1000;
+            display: none;
+            animation: fadeIn 0.5s, fadeOut 0.5s 2.5s;
+        }
+
+        @keyframes fadeIn {
+            from {opacity: 0; transform: translateY(-20px);}
+            to {opacity: 1; transform: translateY(0);}
+        }
+
+        @keyframes fadeOut {
+            from {opacity: 1;}
+            to {opacity: 0;}
+        }
+    </style>
+</head>
+<body>
+
+<!-- Mensaje de éxito flotante -->
+<div id="mensaje-flotante" class="mensaje-exito"></div>
+
+<header>
+    <nav>
+        <div class="logo">
+            <h1>BookLab <span>Biblioteca</span></h1>
+        </div>
+        <ul class="nav-links">
+            <li><a href="#inicio">Inicio</a></li>
+            <li><a href="#coleccion">Colección</a></li>
+            <li><a href="#autores">Autores</a></li>
+            <li><a href="#centro-ayuda">Centro de Ayuda</a></li>
+            <li><a href="/api/libroVirtualesLog">Libros Virtuales</a></li>
+            <li><a href="/api/reservaLibro">Reserva</a></li>
+        </ul>
+        <div class="user-info">
+            <p>Hola, <strong th:text="${username}">Usuario</strong></p>
+            <form action="/api/logout" method="post">
+                <button type="submit" class="btn logout-btn">Cerrar sesión</button>
+            </form>
+        </div>
+    </nav>
+</header>
+
+<section class="hero" id="inicio">
+    <div class="hero-text">
+        <p class="collection">Bienvenido a BookLab</p>
+        <h1 class="title">Explora Nuestra Colección Virtual</h1>
+        <p class="description">Nos gustaria conocerte.</p>
+        <a href="/api/conocerte" class="btn">Ingresa</a>
+    </div>
+    <div class="hero-image">
+        <img src="/img/portada.webp" alt="Biblioteca Virtual">
+    </div>
+</section>
+
+<section class="section coleccion" id="coleccion">
+    <h2 class="section-title">Nuestra Colección</h2>
+    <p class="section-subtitle">Encuentra los mejores libros seleccionados especialmente para ti.</p>
+    <div class="shop-container">
+        <div class="shop-item">
+            <img src="/img/libro1.jpeg" alt="El Gran Libro del Conocimiento">
+            <h3>El Gran Libro del Conocimiento</h3>
+            <p>Explora los temas más importantes de la historia humana.</p>
+            <a href="https://www.gutenberg.org/cache/epub/11036/pg11036-images.html" class="btn">Leer</a>
+        </div>
+
+        <div class="shop-item">
+            <img src="/img/libro2.jpeg" alt="Misterios del Universo">
+            <h3>Misterios del Universo</h3>
+            <p>Una mirada fascinante a los secretos del cosmos.</p>
+            <a href="https://www.gutenberg.org/cache/epub/2591/pg2591-images.html" class="btn">Leer</a>
+        </div>
+
+        <div class="shop-item">
+            <img src="/img/libro3.jpeg" alt="Historias de la Antigua Civilización">
+            <h3>Historias de la Antigua Civilización</h3>
+            <p>Relatos sobre las civilizaciones que marcaron la historia.</p>
+            <a href="https://www.gutenberg.org/cache/epub/1064/pg1064-images.html" class="btn">Leer</a>
+        </div>
+    </div>
+</section>
+
+<section class="section autores" id="autores">
+    <h2 class="section-title">Nuestros Autores</h2>
+    <div class="autores-container">
+        <div class="autor-item">
+            <i class="fas fa-user"></i>
+            <h3>Gabriel García Márquez</h3>
+            <p>"Cien Años de Soledad"</p>
+        </div>
+        <div class="autor-item">
+            <i class="fas fa-user"></i>
+            <h3>Isabel Allende</h3>
+            <p>"La Casa de los Espíritus"</p>
+        </div>
+        <div class="autor-item">
+            <i class="fas fa-user"></i>
+            <h3>Jorge Luis Borges</h3>
+            <p>"Ficciones"</p>
+        </div>
+    </div>
+</section>
+
+<section class="section centro-ayuda" id="centro-ayuda">
+    <h2 class="section-title">Centro de Ayuda</h2>
+    <p class="section-subtitle">¿Tienes dudas o necesitas asistencia? ¡Estamos para ayudarte!</p>
+    <div class="contact-container">
+        <div class="contact-card">
+            <i class="fas fa-envelope"></i>
+            <h3>Escríbenos</h3>
+            <p>servicios@bibliote.gov.co</p>
+        </div>
+        <div class="contact-card">
+            <i class="fas fa-phone-alt"></i>
+            <h3>Llámamos</h3>
+            <p>(+57 601) 3424100</p>
+        </div>
+        <div class="contact-card">
+            <i class="fas fa-map-marker-alt"></i>
+            <h3>Visítanos</h3>
+            <p>Calle 24 No. 5 - 60, Bogotá</p>
+        </div>
+    </div>
+</section>
+
+<section class="section reseñas" id="reseñas">
+    <h2 class="section-title">Deja Tu Reseña</h2>
+    <p class="section-subtitle">Tu opinión nos ayuda a mejorar nuestra biblioteca.</p>
+
+    <form id="reseña-form" class="reseña-form">
+        <label for="nombre">Nombre:</label>
+        <input type="text" id="nombre" name="nombre" required>
+
+        <label for="comentario">Comentario:</label>
+        <textarea id="comentario" name="comentario" rows="4" required></textarea>
+
+        <button type="submit" class="btn">Enviar Reseña</button>
+        <p id="mensaje-envio" style="display:none; margin-top: 10px;"></p>
+    </form>
+</section>
+
+<footer>
+    <p>&copy; 2024 BookLab Biblioteca. Todos los derechos reservados.</p>
+</footer>
+
+<script>
+    document.getElementById('reseña-form').addEventListener('submit', function(event) {
+        event.preventDefault();
+
+        // Obtener los datos del formulario
+        const formData = {
+            nombre: document.getElementById('nombre').value,
+            comentario: document.getElementById('comentario').value
+        };
+
+        // Mostrar mensaje de carga
+        const mensajeEnvio = document.getElementById('mensaje-envio');
+        mensajeEnvio.style.display = 'block';
+        mensajeEnvio.style.color = '#333';
+        mensajeEnvio.textContent = 'Enviando reseña...';
+
+        // Enviar datos al servidor
+        fetch('/api/guardarResena', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded',
+            },
+            body: `nombre=${encodeURIComponent(formData.nombre)}&comentario=${encodeURIComponent(formData.comentario)}`
+        })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Error en la respuesta del servidor');
+            }
+            return response.text();
+        })
+        .then(() => {
+            // Mostrar mensaje de éxito en el formulario
+            mensajeEnvio.textContent = '¡Gracias por tu reseña!';
+            mensajeEnvio.style.color = 'green';
+
+            // Mostrar mensaje flotante
+            const mensajeFlotante = document.getElementById('mensaje-flotante');
+            mensajeFlotante.textContent = '✅ Reseña enviada con éxito';
+            mensajeFlotante.style.display = 'block';
+            mensajeFlotante.style.backgroundColor = '#4CAF50';
+
+            // Ocultar mensaje flotante después de 3 segundos
+            setTimeout(() => {
+                mensajeFlotante.style.display = 'none';
+            }, 3000);
+
+            // Resetear formulario después de 3 segundos
+            setTimeout(() => {
+                document.getElementById('reseña-form').reset();
+                mensajeEnvio.style.display = 'none';
+            }, 3000);
+        })
+        .catch(error => {
+            // Mostrar mensaje de error
+            mensajeEnvio.textContent = 'Error al enviar la reseña. Intenta nuevamente.';
+            mensajeEnvio.style.color = 'red';
+
+            // Mostrar mensaje flotante de error
+            const mensajeFlotante = document.getElementById('mensaje-flotante');
+            mensajeFlotante.textContent = '⚠️ Error al enviar la reseña';
+            mensajeFlotante.style.display = 'block';
+            mensajeFlotante.style.backgroundColor = '#f44336';
+
+            setTimeout(() => {
+                mensajeFlotante.style.display = 'none';
+            }, 3000);
+
+            console.error('Error:', error);
+        });
+    });
+</script>
+
+</body>
+</html>

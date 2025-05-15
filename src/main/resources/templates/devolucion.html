@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Devolución de Libros - BookLab</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        * {
+          box-sizing: border-box;
+          margin: 0;
+          padding: 0;
+          font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+          background-color: #f5f7fa;
+          padding: 30px;
+          color: #2c3e50;
+        }
+
+        header {
+          background-color: #27ae60;
+          color: white;
+          padding: 20px;
+          border-radius: 12px;
+          margin-bottom: 30px;
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+        }
+
+        header h1 {
+          font-size: 24px;
+        }
+
+        nav a {
+          color: white;
+          text-decoration: none;
+          margin-left: 20px;
+          font-weight: 500;
+          transition: color 0.2s;
+        }
+
+        nav a:hover {
+          color: #d1ffe5;
+        }
+
+        h2 {
+          margin-bottom: 20px;
+          font-size: 22px;
+          color: #2c3e50;
+        }
+
+        .container {
+          display: flex;
+          flex-wrap: wrap;
+          gap: 20px;
+        }
+
+        .reservas-list, .devolucion-form {
+          background-color: white;
+          border-radius: 16px;
+          padding: 24px;
+          box-shadow: 0 6px 18px rgba(0, 0, 0, 0.07);
+        }
+
+        .reservas-list {
+          flex: 1 1 60%;
+        }
+
+        .devolucion-form {
+          flex: 1 1 35%;
+          min-width: 320px;
+        }
+
+        input, select, button {
+          width: 100%;
+          padding: 10px;
+          margin-top: 6px;
+          border: 1px solid #dcdcdc;
+          border-radius: 10px;
+          font-size: 15px;
+        }
+
+        input:read-only {
+          background-color: #f0f3f5;
+        }
+
+        label {
+          font-weight: 500;
+          margin-top: 14px;
+          display: block;
+        }
+
+        .search-box {
+          margin-bottom: 20px;
+        }
+
+        .table {
+          width: 100%;
+          border-collapse: collapse;
+          font-size: 14px;
+        }
+
+        .table thead {
+          background-color: #27ae60;
+          color: white;
+        }
+
+        .table th, .table td {
+          padding: 12px;
+          text-align: left;
+        }
+
+        .table tbody tr:nth-child(even) {
+          background-color: #f0f2f5;
+        }
+
+        .table tbody tr:hover {
+          background-color: #e2f6ec;
+        }
+
+        .btn {
+          margin-top: 20px;
+          background-color: #27ae60;
+          color: white;
+          font-weight: 500;
+          border: none;
+          padding: 10px 16px;
+          border-radius: 12px;
+          cursor: pointer;
+          transition: background-color 0.3s;
+        }
+
+        .btn:hover {
+          background-color: #219150;
+        }
+
+        .multa-section {
+          margin-top: 20px;
+          background-color: #fff7e1;
+          border: 1px solid #f3d675;
+          border-radius: 12px;
+          padding: 16px;
+          display: none;
+        }
+
+        .multa-section h5 {
+          margin-bottom: 12px;
+          font-size: 16px;
+          color: #8a6d3b;
+        }
+    </style>
+</head>
+<body>
+
+<header style="background-color: white; padding: 25px 40px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #e0e0e0;">
+    <h1 style="font-size: 22px; font-weight: 600; color: #2c3e50;">
+        BookLab <span style="color: #27ae60;">Biblioteca</span> – <span style="color: #2c3e50;">Admin</span>
+    </h1>
+    <nav>
+        <a href="/api/admin" style="margin-left: 30px; color: #2c3e50; text-decoration: none; font-weight: 500;">Inicio</a>
+        <a href="" style="margin-left: 20px; color: #2c3e50; text-decoration: none; font-weight: 500;">Gestión de reservas</a>
+    </nav>
+</header>
+
+
+<div class="container">
+    <!-- Reservas -->
+    <div class="reservas-list">
+        <h2>Reservas Activas</h2>
+        <div class="search-box">
+            <input type="text" id="searchInput" placeholder="Buscar por nombre...">
+        </div>
+        <table class="table">
+            <thead>
+            <tr>
+                <th>Nombre</th>
+                <th>Libro</th>
+                <th>Fecha Reserva</th>
+                <th>Acción</th>
+            </tr>
+            </thead>
+            <tbody id="reservasTable">
+            <tr th:each="reserva : ${reservas}">
+                <td th:text="${reserva.nombreCompleto}">Nombre</td>
+                <td th:text="${reserva.libro}">Libro</td>
+                <td th:text="${#temporals.format(reserva.fecha, 'dd/MM/yyyy')}">Fecha</td>
+                <td>
+                    <button class="btn seleccionar-btn"
+                            th:data-id="${reserva.id}"
+                            th:data-nombre="${reserva.nombreCompleto}"
+                            th:data-libro="${reserva.libro}"
+                            th:data-fechareserva="${#temporals.format(reserva.fecha, 'yyyy-MM-dd')}">
+                        Seleccionar
+                    </button>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Formulario -->
+    <div class="devolucion-form">
+        <h2>Procesar Devolución</h2>
+        <form id="devolucionForm" th:action="@{/api/procesar-devolucion}" method="post">
+            <input type="hidden" id="reservaId" name="reservaId">
+
+            <label>Nombre</label>
+            <input type="text" id="nombre" readonly>
+
+            <label>Libro</label>
+            <input type="text" id="libro" readonly>
+
+            <label>Fecha de Reserva</label>
+            <input type="text" id="fechaReserva" readonly>
+
+            <label>Fecha de Devolución</label>
+            <input type="date" id="fechaDevolucion" name="fechaDevolucion"
+                   th:value="${#temporals.format(#temporals.createToday(), 'yyyy-MM-dd')}" readonly>
+
+            <div id="multaSection" class="multa-section">
+                <h5>Multa por Retraso</h5>
+                <label>Días de retraso</label>
+                <input type="number" id="diasRetraso" name="diasRetraso" readonly>
+                <label>Valor de la multa (COP)</label>
+                <input type="number" id="valorMulta" name="valorMulta" readonly>
+            </div>
+
+            <button type="submit" class="btn">Confirmar Devolución</button>
+        </form>
+    </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    $(document).ready(function () {
+      $("#searchInput").on("keyup", function () {
+        const value = $(this).val().toLowerCase();
+        $("#reservasTable tr").filter(function () {
+          $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1);
+        });
+      });
+
+      $(document).on("click", ".seleccionar-btn", function () {
+        const nombre = $(this).data("nombre");
+        const libro = $(this).data("libro");
+        const fechaReservaStr = $(this).data("fechareserva");
+        const id = $(this).data("id");
+
+        const fechaReserva = new Date(fechaReservaStr);
+        const fechaDevolucion = new Date();
+        const diffTime = fechaDevolucion - fechaReserva;
+        const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+
+        $("#reservaId").val(id);
+        $("#nombre").val(nombre);
+        $("#libro").val(libro);
+        $("#fechaReserva").val(fechaReserva.toLocaleDateString('es-CO'));
+
+        if (diffDays > 7) {
+          const diasRetraso = diffDays - 7;
+          const valorMulta = diasRetraso * 5000;
+          $("#diasRetraso").val(diasRetraso);
+          $("#valorMulta").val(valorMulta);
+          $("#multaSection").show();
+        } else {
+          $("#multaSection").hide();
+        }
+      });
+    });
+</script>
+
+</body>
+</html>

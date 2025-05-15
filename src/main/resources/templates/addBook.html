@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Agregar Libro - BookLab</title>
+  <link rel="stylesheet" href="/estilos/AdminAdd.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+</head>
+<body>
+
+<header style="background-color: white; padding: 25px 40px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #e0e0e0;">
+  <h1 style="font-size: 22px; font-weight: 600; color: #2c3e50;">
+    BookLab <span style="color: #27ae60;">Biblioteca</span> – <span style="color: #2c3e50;">Admin</span>
+  </h1>
+  <nav>
+    <a href="/api/admin" style="margin-left: 30px; color: #2c3e50; text-decoration: none; font-weight: 500;">Inicio</a>
+    <a href="" style="margin-left: 20px; color: #2c3e50; text-decoration: none; font-weight: 500;">Add libros</a>
+  </nav>
+</header>
+
+<section class="section add-book" id="add-book">
+  <h2 class="section-title">Agregar Nuevo Libro</h2>
+  <div class="form-nueva-reserva">
+    <h3>Detalles del Libro</h3>
+    <form id="agregar-libro-form">
+      <label for="titulo">Título del Libro:</label>
+      <input type="text" id="titulo" name="titulo" required placeholder="Ingrese el título del libro">
+
+      <label for="url">URL del Libro:</label>
+      <input type="url" id="url" name="url" required placeholder="Ingrese la URL del libro">
+
+      <label for="autor">Autor:</label>
+      <input type="text" id="autor" name="autor" required placeholder="Ingrese el autor del libro">
+
+      <label for="descripcion">Descripción:</label>
+      <textarea id="descripcion" name="descripcion" rows="4" placeholder="Ingrese una breve descripción" required></textarea>
+
+      <label for="categoria">Categoría:</label>
+      <select id="categoria" name="categoria" required>
+        <option value="">Seleccione una categoría</option>
+        <option value="Novelas">Novelas</option>
+        <option value="Ciencia">Ciencia</option>
+        <option value="Historia">Historia</option>
+        <option value="Arte">Arte</option>
+        <option value="Fantasía">Fantasía</option>
+        <option value="Filosofía">Filosofía</option>
+      </select>
+
+      <button type="submit" class="btn">Agregar Libro</button>
+    </form>
+    <div id="mensajeConfirmacion" style="display:none;">Libro agregado con éxito</div>
+    <div id="mensajeError" style="display:none;">Hubo un error al agregar el libro</div>
+  </div>
+</section>
+
+<footer>
+  <p>&copy; 2024 NexGet Biblioteca. Todos los derechos reservados.</p>
+</footer>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+  $(document).ready(function() {
+      // Enviar el formulario por AJAX
+      $('#agregar-libro-form').submit(function(e) {
+          e.preventDefault();
+
+          // Obtener los datos del formulario
+          var formData = {
+              titulo: $('#titulo').val(),
+              url: $('#url').val(),
+              autor: $('#autor').val(),
+              descripcion: $('#descripcion').val(),
+              categoria: $('#categoria').val()
+          };
+
+          // Enviar los datos a través de AJAX
+          $.ajax({
+              url: '/api/agregarLibro',
+              type: 'POST',
+              data: formData,
+              success: function(response) {
+                  $('#mensajeConfirmacion').show();
+                  $('#mensajeError').hide();
+                  $('#agregar-libro-form')[0].reset(); // Resetear el formulario
+              },
+              error: function() {
+                  $('#mensajeError').show();
+                  $('#mensajeConfirmacion').hide();
+              }
+          });
+      });
+  });
+</script>
+
+</body>
+</html>

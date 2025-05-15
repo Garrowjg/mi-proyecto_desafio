@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BookLab</title>
+    <link rel="stylesheet" href="/estilos/principal.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+<header>
+    <nav>
+        <div class="logo">
+            <h1>BookLab <span>Biblioteca</span></h1>
+        </div>
+        <ul class="nav-links">
+            <li><a href="#inicio">Inicio</a></li>
+            <li><a href="#coleccion">Colección</a></li>
+            <li><a href="#autores">Autores</a></li>
+            <li><a href="#contacto">Contacto</a></li>
+            <li><a href="/api/librosVirtuales">Libros virtuales</a></li>
+        </ul>
+        <div class="nav-icons">
+            <a href="/api/login" class="btn">Iniciar Sesión</a>
+        </div>
+    </nav>
+</header>
+
+<section class="hero" id="inicio">
+    <div class="hero-text">
+        <p class="collection">Bienvenido</p>
+        <h1 class="title">Explora Nuestra Colección Virtual</h1>
+        <p class="description">Accede a miles de libros y recursos de tus autores favoritos desde la comodidad de tu hogar.</p>
+        <a href="#coleccion" class="btn">Explorar Colección</a>
+    </div>
+    <div class="hero-image">
+        <img src="/img/portada.webp" alt="Biblioteca Virtual">
+    </div>
+</section>
+
+<section class="section coleccion" id="coleccion">
+    <h2 class="section-title">Nuestra Colección</h2>
+    <p class="section-subtitle">Encuentra los mejores libros seleccionados especialmente para ti.</p>
+    <div class="shop-container">
+        <div class="shop-item">
+            <img src="/img/libro1.jpeg" alt="Libro 1">
+            <h3>Cuentos de hadas clásicos</h3>
+            <p>Una exploración profunda de los temas más importantes.</p>
+            <a href="https://www.gutenberg.org/cache/epub/11036/pg11036-images.html" class="btn">Leer</a>
+        </div>
+        <div class="shop-item">
+            <img src="/img/libro2.jpeg" alt="Libro 2">
+            <h3>Cuentos de los Hermanos Grimm</h3>
+            <p>Una guía fascinante sobre los secretos del cosmos.</p>
+            <a href="https://www.gutenberg.org/cache/epub/2591/pg2591-images.html" class="btn">Leer</a>
+        </div>
+        <div class="shop-item">
+            <img src="/img/libro3.jpeg" alt="Libro 3">
+            <h3>Cuentos de Edgar Allan Poe</h3>
+            <p>Relatos impresionantes sobre las primeras sociedades humanas.</p>
+            <a href="https://www.gutenberg.org/cache/epub/1064/pg1064-images.html" class="btn">Leer</a>
+        </div>
+    </div>
+</section>
+
+<section class="section autores" id="autores">
+    <h2 class="section-title">Nuestros Autores</h2>
+    <div class="autores-container">
+        <div class="autor-item">
+            <i class="fas fa-user"></i>
+            <h3>Gabriel García Márquez</h3>
+            <p>Autor de "Cien Años de Soledad".</p>
+        </div>
+        <div class="autor-item">
+            <i class="fas fa-user"></i>
+            <h3>Isabel Allende</h3>
+            <p>Autora de "La Casa de los Espíritus".</p>
+        </div>
+        <div class="autor-item">
+            <i class="fas fa-user"></i>
+            <h3>Jorge Luis Borges</h3>
+            <p>Autor de "Ficciones".</p>
+        </div>
+    </div>
+</section>
+
+<section class="section centro-ayuda" id="centro-ayuda">
+    <h2 class="section-title">Centro de Ayuda</h2>
+    <p class="section-subtitle">¿Tienes dudas o necesitas asistencia? ¡Estamos para ayudarte!</p>
+    <div class="contact-container">
+        <div class="contact-card">
+            <i class="fas fa-envelope"></i>
+            <h3>Escríbenos</h3>
+            <p>servicios@bibliote.gov.co</p>
+        </div>
+        <div class="contact-card">
+            <i class="fas fa-phone-alt"></i>
+            <h3>Llámamos</h3>
+            <p>(+57 601) 3424100</p>
+        </div>
+        <div class="contact-card">
+            <i class="fas fa-map-marker-alt"></i>
+            <h3>Visítanos</h3>
+            <p>Calle 24 No. 5 - 60, Bogotá</p>
+        </div>
+    </div>
+</section>
+
+<footer>
+    <p>&copy; 2024 NexGet Biblioteca. Todos los derechos reservados.</p>
+</footer>
+
+</body>
+</html>

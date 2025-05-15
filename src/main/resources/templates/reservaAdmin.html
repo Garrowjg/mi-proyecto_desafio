@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Gestión de Reservas - Administrador - BookLab Biblioteca</title>
+  <link rel="stylesheet" href="/estilos/reserva.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
+  <style>
+    #mensaje-exito {
+      display: none;
+      background-color: #d4edda;
+      color: #155724;
+      border: 1px solid #c3e6cb;
+      padding: 10px;
+      border-radius: 5px;
+      margin-bottom: 15px;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <nav>
+    <div class="logo">
+      <h1>BookLab <span>Biblioteca</span> - Admin</h1>
+    </div>
+    <div class="nav-right">
+      <ul class="nav-links">
+        <li><a href="/api/admin">Inicio</a></li>
+        <li><a href="/api/reservaAdmin">Gestión de reservas</a></li>
+      </ul>
+    </div>
+  </nav>
+</header>
+
+<main class="reserva-section">
+  <div class="reserva-container">
+    <h2 class="section-title">Gestión de Reservas de Libros</h2>
+
+    <!-- Filtros -->
+    <div class="filtros-container">
+      <div class="filtro-grupo">
+        <label for="categoria">Categoría:</label>
+        <select id="categoria" required>
+          <option value="" disabled selected>Selecciona una categoría</option>
+          <option th:each="cat : ${categorias}" th:value="${cat}" th:text="${cat}"></option>
+        </select>
+      </div>
+
+      <div class="filtro-grupo" id="grupo-busqueda" style="display:none;">
+        <label for="busqueda">Buscar libro:</label>
+        <input type="text" id="busqueda" placeholder="Título, autor...">
+      </div>
+    </div>
+
+    <!-- Resultados -->
+    <div class="resultados-container" id="resultados-container" style="display:none;">
+      <div class="contador-libros">
+        <span id="contador">0 libros encontrados</span>
+      </div>
+
+      <div class="lista-libros" id="lista-libros">
+        <!-- Los libros se cargarán aquí dinámicamente -->
+      </div>
+    </div>
+
+    <!-- Formulario de reserva -->
+    <div class="formulario-reserva" id="formulario-reserva" style="display:none;">
+      <h3>Completar Reserva</h3>
+
+      <!-- Mensaje de éxito -->
+      <div id="mensaje-exito">¡Reserva realizada con éxito!</div>
+
+      <form id="reserva-form">
+        <input type="hidden" id="libro-seleccionado" name="libro">
+        <input type="hidden" id="categoria-seleccionada" name="categoria">
+
+        <div class="form-grupo">
+          <label for="idUsuario">ID de Usuario:</label>
+          <input type="text" id="idUsuario" name="idUsuario" required>
+        </div>
+
+        <div class="form-grupo">
+          <label for="nombreCompleto">Nombre Completo:</label>
+          <input type="text" id="nombreCompleto" name="nombreCompleto" required>
+        </div>
+
+        <div class="form-grupo">
+          <label for="correo">Correo Electrónico:</label>
+          <input type="email" id="correo" name="correo" required>
+        </div>
+
+        <div class="form-grupo">
+          <label for="fecha">Fecha de Reserva:</label>
+          <input type="date" id="fecha" name="fecha" required>
+        </div>
+
+        <div class="form-acciones">
+          <button type="button" id="cancelar-reserva" class="btn btn-secundario">Cancelar</button>
+          <button type="submit" class="btn btn-primario">Confirmar Reserva</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</main>
+
+<footer>
+  <p>&copy; 2024 BookLab Biblioteca - Administrador. Todos los derechos reservados.</p>
+</footer>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+  $(document).ready(function() {
+      let todosLosLibros = [];
+      let librosFiltrados = [];
+
+      $('#categoria').change(function() {
+          const categoria = $(this).val();
+          if (categoria) {
+              cargarLibros(categoria);
+              $('#grupo-busqueda').show();
+          } else {
+              $('#resultados-container').hide();
+              $('#grupo-busqueda').hide();
+          }
+      });
+
+      $('#busqueda').keyup(function() {
+          filtrarLibros();
+      });
+
+      $('#cancelar-reserva').click(function() {
+          $('#formulario-reserva').hide();
+          $('#mensaje-exito').hide();
+      });
+
+      $('#reserva-form').submit(function(e) {
+          e.preventDefault();
+          enviarReserva();
+      });
+
+      function cargarLibros(categoria) {
+          $.ajax({
+              url: '/api/cargarLibrosPorCategoria',
+              type: 'GET',
+              data: { categoria: categoria },
+              beforeSend: function() {
+                  $('#lista-libros').html('<div class="cargando">Cargando libros...</div>');
+              },
+              success: function(data) {
+                  todosLosLibros = data;
+                  librosFiltrados = data;
+                  mostrarLibros(data);
+                  $('#categoria-seleccionada').val(categoria);
+                  $('#resultados-container').show();
+              },
+              error: function() {
+                  alert('Error al cargar los libros');
+              }
+          });
+      }
+
+      function filtrarLibros() {
+          const busqueda = $('#busqueda').val().toLowerCase();
+          if (busqueda === '') {
+              librosFiltrados = todosLosLibros;
+          } else {
+              librosFiltrados = todosLosLibros.filter(function(libro) {
+                  return libro.titulo.toLowerCase().includes(busqueda) ||
+                         (libro.autor && libro.autor.toLowerCase().includes(busqueda));
+              });
+          }
+          mostrarLibros(librosFiltrados);
+      }
+
+      function mostrarLibros(libros) {
+          const $lista = $('#lista-libros');
+          $lista.empty();
+
+          if (libros.length === 0) {
+              $lista.html('<div class="sin-resultados">No se encontraron libros</div>');
+              $('#contador').text('0 libros encontrados');
+              return;
+          }
+
+          $('#contador').text(libros.length + ' libros encontrados');
+
+          libros.forEach(function(libro) {
+              $lista.append(`
+                  <div class="libro-item" data-titulo="${libro.titulo}">
+                      <h3>${libro.titulo}</h3>
+                      ${libro.autor ? `<p><strong>Autor:</strong> ${libro.autor}</p>` : ''}
+                      ${libro.anioPublicacion ? `<p><strong>Año:</strong> ${libro.anioPublicacion}</p>` : ''}
+                      <button class="btn-seleccionar">Seleccionar</button>
+                  </div>
+              `);
+          });
+
+          $('.btn-seleccionar').click(function() {
+              const titulo = $(this).closest('.libro-item').data('titulo');
+              $('#libro-seleccionado').val(titulo);
+              $('#formulario-reserva').show();
+              $('#mensaje-exito').hide();
+              $('html, body').animate({
+                  scrollTop: $('#formulario-reserva').offset().top
+              }, 500);
+          });
+      }
+
+      function enviarReserva() {
+          const formData = $('#reserva-form').serialize();
+          $.ajax({
+              url: '/api/guardarReservaUsuario',
+              type: 'POST',
+              data: formData,
+              success: function(response) {
+                  $('#reserva-form')[0].reset();
+                  $('#mensaje-exito').fadeIn().delay(3000).fadeOut();
+              },
+              error: function() {
+                  alert('Error al realizar la reserva');
+              }
+          });
+      }
+  });
+</script>
+</body>
+</html>

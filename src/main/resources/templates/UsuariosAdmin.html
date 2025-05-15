@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Usuarios - Administración BookLab</title>
+    <link rel="stylesheet" href="/estilos/AdminU.css">
+</head>
+<body>
+
+<header>
+    <nav>
+        <div class="logo">
+            <h1>BookLab - Admin</h1>
+        </div>
+        <ul class="nav-links">
+            <li><a href="/api/admin">Inicio</a></li>
+            <li><a href="/api/reservaAdmin">Reservas</a></li>
+            <li><a href="/api/usuariosAdmin">Usuarios</a></li>
+            <li><a href="/api/noAdminConfig">Configuración</a></li>
+        </ul>
+    </nav>
+</header>
+
+<section class="section usuarios" id="usuarios">
+    <h2 class="section-title">Gestión de Usuarios</h2>
+
+    <table>
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>Username</th>
+            <th>Roles</th>
+        </tr>
+        </thead>
+        <tbody>
+        <!-- Iterar sobre los usuarios -->
+        <tr th:each="usuario : ${usuarios}">
+            <td th:text="${usuario.id}">ID</td>
+            <td th:text="${usuario.username}">Username</td>
+            <td th:text="${usuario.roles}">Roles</td>
+        </tr>
+        </tbody>
+    </table>
+
+</section>
+
+<footer>
+    <p>&copy; 2024 NexGet Biblioteca. Todos los derechos reservados.</p>
+</footer>
+
+</body>
+</html>

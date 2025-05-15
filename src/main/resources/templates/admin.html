@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BookLab - Administración</title>
+    <link rel="stylesheet" href="/estilos/adminA.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+</head>
+<body>
+
+<header>
+    <nav>
+        <div class="logo">
+            <h1>BookLab - Admin</h1>
+        </div>
+        <div class="user-info">
+            <form action="/api/logout" method="post">
+                <button type="submit" class="btn logout-btn">Cerrar sesión</button>
+            </form>
+        </div>
+
+    </nav>
+</header>
+
+<section class="section admin-panel" id="admin-panel">
+    <h2 class="section-title">Panel de Administración</h2>
+    <div class="admin-options-container">
+
+        <div class="admin-option">
+            <i class="fas fa-book"></i>
+            <h3>Reservar Libro</h3>
+            <p>Gestiona las reservas de libros para los usuarios.</p>
+            <a href="/api/reservaAdmin" class="btn">Ir a Reservas</a>
+        </div>
+
+        <div class="admin-option">
+            <i class="fas fa-users"></i>
+            <h3>Gestión de Usuarios</h3>
+            <p>Administra la información de los usuarios registrados.</p>
+            <a href="/api/usuariosAdmin" class="btn">Ver Usuarios</a>
+        </div>
+
+        <!-- Nueva opción Dashboard -->
+        <div class="admin-option">
+            <i class="fas fa-tachometer-alt"></i>
+            <h3>Dashboard</h3>
+            <p>Accede a las estadísticas y métricas del sistema.</p>
+            <a href="https://app.powerbi.com/view?r=eyJrIjoiZjMwNzIyZDUtNmJmYS00YjJhLTg1M2UtYTc5N2Q0MDFhM2IzIiwidCI6IjlkMTJiZjNmLWU0ZjYtNDdhYi05MTJmLTFhMmYwZmM0OGFhNCIsImMiOjR9" class="btn" target="_blank">Ver Dashboard</a>
+
+        </div>
+
+        <div class="admin-option">
+            <i class="fas fa-plus"></i>
+            <h3>Añadir Libro</h3>
+            <p>Agrega nuevos libros al sistema de la biblioteca.</p>
+            <a href="/api/addBook" class="btn">Añadir Libro</a>
+        </div>
+        <div class="admin-option">
+            <i class="fas fa-plus"></i>
+            <h3>Añadir Libro Fisicos</h3>
+            <p>Agrega nuevos libros Fisicos al sistema de la biblioteca.</p>
+            <a href="/api/addLibroF" class="btn">Añadir Libro</a>
+        </div>
+
+        <div class="admin-option">
+            <i class="fas fa-undo"></i>
+            <h3>Devolver Libro</h3>
+            <p>Gestiona la devolución de libros por parte de los usuarios.</p>
+            <a href="/api/devolucion" class="btn">Devolver Libro</a>
+        </div>
+
+        <!-- Nueva opción Ver Reseñas -->
+        <div class="admin-option">
+            <i class="fas fa-star"></i>
+            <h3>Ver Reseñas</h3>
+            <p>Revisa las reseñas de los libros por parte de los usuarios.</p>
+            <a href="/api/resenasAdmin" class="btn">Ver Reseñas</a>
+        </div>
+
+        <div class="admin-option">
+            <i class="fas fa-money-bill-wave"></i>
+            <h3>Gestión de Multas</h3>
+            <p>Administra las multas generadas por retrasos en la devolución de libros.</p>
+            <a href="/api/multas" class="btn">Gestionar Multas</a>
+        </div>
+
+
+    </div>
+</section>
+
+<footer>
+    <p>&copy; 2024 NexGet Biblioteca. Todos los derechos reservados.</p>
+</footer>
+
+</body>
+</html>

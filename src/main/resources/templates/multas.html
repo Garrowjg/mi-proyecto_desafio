@@ -204,7 +204,7 @@
 </head>
 <body>
 
-<!-- Mensaje de éxito flotante -->
+
 <div id="mensaje-flotante" class="mensaje-exito"></div>
 
 <header>
@@ -259,7 +259,7 @@
   </table>
 </section>
 
-<!-- Modal para confirmaciones -->
+
 <div id="modal-overlay" class="modal-overlay">
   <div class="modal">
     <p id="modal-message">¿Estás seguro de que deseas realizar esta acción?</p>
@@ -270,7 +270,7 @@
   </div>
 </div>
 
-<!-- Modal para alertas -->
+
 <div id="alert-overlay" class="modal-overlay">
   <div class="modal">
     <p id="alert-message">Operación completada con éxito</p>
@@ -285,38 +285,41 @@
 </footer>
 
 <script>
-  // Filtrar tabla por nombre
+  // Filtrar la tabla por nombre del usuario que tiene la multa
   document.getElementById("buscador").addEventListener("keyup", function () {
-      const filtro = this.value.toLowerCase();
-      const filas = document.querySelectorAll("tbody tr");
+      const filtro = this.value.toLowerCase(); // Texto ingresado en minúsculas
+      const filas = document.querySelectorAll("tbody tr"); // Todas las filas de la tabla
 
       filas.forEach((fila) => {
-          const nombre = fila.cells[0].textContent.toLowerCase();
+          const nombre = fila.cells[0].textContent.toLowerCase(); // Primer celda de la fila (nombre del usuario)
+          // Muestra la fila si el nombre incluye el texto buscado, de lo contrario la oculta
           fila.style.display = nombre.includes(filtro) ? "" : "none";
       });
   });
 
-  // Obtener token CSRF si usas Spring Security
+  // Obtener el token CSRF desde la etiqueta meta (si usas Spring Security)
   function getCsrfToken() {
       const tokenMeta = document.querySelector('meta[name="_csrf"]');
       return tokenMeta ? tokenMeta.getAttribute("content") : "";
   }
 
-  // Variables modal
+  // Referencias al modal de confirmación
   const modalOverlay = document.getElementById("modal-overlay");
   const modalMessage = document.getElementById("modal-message");
   const modalConfirm = document.getElementById("modal-confirm");
   const modalCancel = document.getElementById("modal-cancel");
 
+  // Referencias al mensaje de alerta
   const alertOverlay = document.getElementById("alert-overlay");
   const alertMessage = document.getElementById("alert-message");
   const alertOk = document.getElementById("alert-ok");
 
+  // Variables para guardar la acción actual y la fila/botón involucrado
   let currentAction = null;
   let currentFila = null;
   let currentButton = null;
 
-  // Función para mostrar modal confirmación
+  // Mostrar el modal con un mensaje, una acción y la fila/botón correspondiente
   function showModal(message, action, fila, button) {
       modalMessage.textContent = message;
       currentAction = action;
@@ -325,7 +328,7 @@
       modalOverlay.style.display = "flex";
   }
 
-  // Ocultar modal confirmación
+  // Ocultar el modal y limpiar variables
   function hideModal() {
       modalOverlay.style.display = "none";
       currentAction = null;
@@ -333,52 +336,55 @@
       currentButton = null;
   }
 
-  // Mostrar alert personalizado
+  // Mostrar una alerta personalizada con mensaje y mensaje flotante
   function showAlert(message) {
       alertMessage.textContent = message;
       alertOverlay.style.display = "flex";
 
-      // Mostrar también mensaje flotante
+      // También mostrar mensaje flotante
       const mensajeFlotante = document.getElementById("mensaje-flotante");
       mensajeFlotante.textContent = message;
       mensajeFlotante.style.display = "block";
 
+      // Ocultar mensaje flotante después de 3 segundos
       setTimeout(() => {
           mensajeFlotante.style.display = "none";
       }, 3000);
   }
 
-  // Ocultar alert
+  // Ocultar la alerta cuando se hace clic en "OK"
   alertOk.addEventListener("click", () => {
       alertOverlay.style.display = "none";
   });
 
-  // Cancelar confirmación
+  // Cancelar la acción del modal
   modalCancel.addEventListener("click", hideModal);
 
-  // Confirmar confirmación
+  // Confirmar la acción del modal
   modalConfirm.addEventListener("click", () => {
       if (!currentAction || !currentFila) {
           hideModal();
           return;
       }
-      currentAction(currentFila, currentButton);
+      currentAction(currentFila, currentButton); // Ejecutar acción (pagar o eliminar)
       hideModal();
   });
 
-  // Acción pagar multa
+  // Acción para pagar una multa
   function pagarMulta(fila, button) {
-      const idMulta = fila.getAttribute("data-id");
+      const idMulta = fila.getAttribute("data-id"); // Obtener ID de la multa
 
+      // Enviar solicitud POST para pagar la multa
       fetch(`/api/multas/pagar/${idMulta}`, {
           method: "POST",
           headers: {
               "Content-Type": "application/json",
-              "X-CSRF-TOKEN": getCsrfToken(),
+              "X-CSRF-TOKEN": getCsrfToken(), // Incluir token CSRF
           },
       })
       .then((response) => {
           if (response.ok) {
+              // Cambiar el estado visual a "Pagada"
               const estadoPago = fila.querySelector(".estado-pago");
               estadoPago.textContent = "Pagada";
               estadoPago.classList.remove("no-pagada");
@@ -392,20 +398,21 @@
       .catch(() => showAlert("Error al conectar con el servidor"));
   }
 
-  // Acción eliminar multa
+  // Acción para eliminar una multa
   function eliminarMulta(fila) {
-      const idMulta = fila.getAttribute("data-id");
+      const idMulta = fila.getAttribute("data-id"); // Obtener ID de la multa
 
+      // Enviar solicitud DELETE para eliminar la multa
       fetch(`/api/multas/${idMulta}`, {
           method: "DELETE",
           headers: {
               "Content-Type": "application/json",
-              "X-CSRF-TOKEN": getCsrfToken(),
+              "X-CSRF-TOKEN": getCsrfToken(), // Incluir token CSRF
           },
       })
       .then((response) => {
           if (response.ok) {
-              fila.remove();
+              fila.remove(); // Eliminar la fila de la tabla
               showAlert("Multa eliminada correctamente");
           } else {
               showAlert("Error al eliminar la multa");
@@ -414,11 +421,11 @@
       .catch(() => showAlert("Error al conectar con el servidor"));
   }
 
-  // Eventos botones pagar
+  // Asignar evento a cada botón de "Pagar"
   document.querySelectorAll(".btn-pagar").forEach((button) => {
       button.addEventListener("click", function () {
-          if (this.disabled) return;
-          const fila = this.closest("tr");
+          if (this.disabled) return; // No hacer nada si ya está deshabilitado
+          const fila = this.closest("tr"); // Obtener fila correspondiente
           showModal(
               "¿Seguro que deseas marcar esta multa como pagada?",
               pagarMulta,
@@ -428,13 +435,18 @@
       });
   });
 
-  // Eventos botones eliminar
+  // Asignar evento a cada botón de "Eliminar"
   document.querySelectorAll(".btn-eliminar").forEach((button) => {
       button.addEventListener("click", function () {
           const fila = this.closest("tr");
-          showModal("¿Seguro que deseas eliminar esta multa permanentemente?", eliminarMulta, fila);
+          showModal(
+              "¿Seguro que deseas eliminar esta multa permanentemente?",
+              eliminarMulta,
+              fila
+          );
       });
   });
 </script>
+
 </body>
 </html>

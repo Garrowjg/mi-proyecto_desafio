@@ -27,15 +27,11 @@ public class WebController {
     @Autowired
     private ResenaService resenaService;
 
-
-
     @Autowired
     private CustomUserDetailsService customUserDetailsService;
 
     @Autowired
     private LibroService libroService;
-
-
 
     @Autowired
     private RespuestaDashboardRepository respuestaRepository;
@@ -44,8 +40,6 @@ public class WebController {
     private LibroFisicoService libroFisicoService;
     @Autowired
     private RespuestaDashboardService respuestaService;
-
-
 
     @Autowired
     private UsuarioRepository usuariorepository;
@@ -71,9 +65,6 @@ public class WebController {
     @Autowired
     private UsuarioRepository usuarioRepository;
 
-
-
-    // Página de inicio
     @GetMapping("/index")
     public String homePage(Model model) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
@@ -83,7 +74,6 @@ public class WebController {
         return "index";
     }
 
-    // Página de login
     @GetMapping("/login")
     public String loginPage(@RequestParam(value = "error", required = false) String error,
                             @RequestParam(value = "logout", required = false) String logout,
@@ -98,7 +88,7 @@ public class WebController {
         return libroFisicoService.obtenerLibrosFisicosPorCategoria(categoria);
     }
 
-    // Procesar registro
+
     @PostMapping("/register")
     public String procesarRegistro(@RequestParam String username,
                                    @RequestParam String password,
@@ -192,8 +182,8 @@ public class WebController {
     @GetMapping("/devolucion")
     public String libroDevolucion(Model model) {
         List<ReservaModel> reservas = reservaService.obtenerTodasReservas();
-        model.addAttribute("reservas", reservas); // Esto está correcto
-        return "devolucion"; // Asegúrate que coincida con el nombre de tu plantilla HTML
+        model.addAttribute("reservas", reservas);
+        return "devolucion";
     }
 
 
@@ -223,9 +213,6 @@ public class WebController {
         }
         return "reservaAdmin";
     }
-
-
-
 
     @GetMapping("/noAdminConfig")
     public String noAdminConfig() {
@@ -261,7 +248,7 @@ public class WebController {
                                           @RequestParam String descripcion,
                                           @RequestParam String categoria) {
         try {
-            // Crear y guardar el libro
+
             LibroModel libro = new LibroModel();
             libro.setTitulo(titulo);
             libro.setUrl(url);
@@ -270,10 +257,10 @@ public class WebController {
             libro.setCategoria(categoria);
             libroService.guardarLibro(libro);
 
-            // Retornar respuesta exitosa
+
             return ResponseEntity.ok().body("Libro agregado exitosamente");
         } catch (Exception e) {
-            // Manejar el error y retornar un mensaje adecuado
+
             return ResponseEntity.status(500).body("Hubo un error al agregar el libro");
         }
     }
@@ -281,13 +268,13 @@ public class WebController {
     @ResponseBody
     public ResponseEntity<?> agregarLibroF(@RequestBody LibroFisicoModel libroFisico) {
         try {
-            // Guardar el libro
+
             libroFisicoService.guardarLibroFisico(libroFisico);
 
-            // Retornar respuesta exitosa
+
             return ResponseEntity.ok().body("Libro agregado exitosamente");
         } catch (Exception e) {
-            // Manejar el error y retornar un mensaje adecuado
+
             return ResponseEntity.status(500).body("Hubo un error al agregar el libro");
         }
     }
@@ -306,7 +293,7 @@ public class WebController {
         }
 
         model.addAttribute("multas", multas);
-        return "multas"; // Esto carga el archivo multas.html
+        return "multas";
     }
 
 
@@ -314,24 +301,24 @@ public class WebController {
     public String usuariosAdmin(Model model) {
         List<Usuario> usuarios = usuarioService.obtenerTodosLosUsuarios();
         model.addAttribute("usuarios", usuarios);
-        return "usuariosAdmin"; // nombre del archivo HTML (sin .html)
+        return "usuariosAdmin";
     }
-
-
 
     @GetMapping("/librosVirtuales")
     public String librosVirtuales() {
         return "librosVirtuales";
     }
+
     @GetMapping("/addMulta")
     public String add() {
         return "addMulta";
     }
+
     @GetMapping("/resenasAdmin")
     public String resena(Model model) {
         List<ResenaModel> resenas = resenaService.obtenerTodasLasResenas();
         model.addAttribute("resenas", resenas);
-        return "resenasAdmin"; // sin la barra
+        return "resenasAdmin";
     }
 
     @GetMapping("/mensajeReservaUsuario")
@@ -342,11 +329,6 @@ public class WebController {
     public String addLibroF() {
         return "addLibroF";
     }
-
-
-
-
-
 
     @PostMapping("/guardarReservaUsuario")
     public String guardarReservaUsuario(@RequestParam String idUsuario,
@@ -368,7 +350,7 @@ public class WebController {
         return "redirect:/api/mensajeReservaUsuario";
     }
 
-    // NUEVO: Guardar respuestas del dashboard
+
     @PostMapping("/guardarRespuestaDashboard")
     public String guardarRespuestaDashboard(@ModelAttribute RespuestaDashboard respuesta) {
         respuestaService.guardarRespuesta(respuesta);
@@ -383,16 +365,14 @@ public class WebController {
             ResenaModel resena = new ResenaModel(nombre, comentario);
             resenaService.guardarResena(resena);
             redirectAttributes.addFlashAttribute("mensaje", "¡Gracias por tu reseña!");
-            return "redirect:/api/logiado"; // Corregir la ruta de redirección
+            return "redirect:/api/logiado";
         } catch (Exception e) {
             e.printStackTrace();
             redirectAttributes.addFlashAttribute("error", "Error al guardar la reseña");
             return "redirect:/api/logiado";
         }
     }
-    //multAS
 
-    // Mostrar multas por DNI
 
     @PostMapping("/procesar-devolucion")
     public String procesarDevolucion(
@@ -402,7 +382,7 @@ public class WebController {
             @RequestParam String fechaDevolucion,
             RedirectAttributes redirectAttributes) {
 
-        // Obtener la reserva
+
         ReservaModel reserva = reservaService.obtenerReservaPorId(reservaId);
 
         if (reserva == null) {
@@ -410,10 +390,10 @@ public class WebController {
             return "redirect:/api/devolucion";
         }
 
-        // Convertir fecha de string a LocalDate
+
         LocalDate fechaDev = LocalDate.parse(fechaDevolucion);
 
-        // Procesar multa si hay retraso
+
         if (diasRetraso != null && diasRetraso > 0 && valorMulta != null) {
             MultaModel multa = new MultaModel(
                     reserva.getIdUsuario(),
@@ -433,7 +413,7 @@ public class WebController {
                     "Devolución registrada sin multa");
         }
 
-        // Eliminar la reserva
+
         reservaService.eliminarReserva(reservaId);
 
         return "redirect:/api/devolucion";
@@ -462,11 +442,6 @@ public class WebController {
         multaService.eliminarMulta(id);
         return ResponseEntity.noContent().build();
     }
-
-
-
-
-
 
 }
 

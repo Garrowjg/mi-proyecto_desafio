@@ -38,7 +38,7 @@ public class RespuestaDashboard {
 
     private LocalDateTime fechaRegistro = LocalDateTime.now();
 
-    // Getters y setters
+
 
     public String getId() { return id; }
     public void setId(String id) { this.id = id; }

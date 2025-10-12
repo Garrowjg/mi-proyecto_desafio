@@ -61,7 +61,7 @@ public class SecurityConfig {
                 )
                 .logout(logout -> logout
                         .logoutUrl("/api/logout")
-                        .logoutSuccessUrl("/api/index") // ← Aquí cambias la redirección después del logout
+                        .logoutSuccessUrl("/api/index") 
                         .invalidateHttpSession(true)
                         .deleteCookies("JSESSIONID")
                         .permitAll()

@@ -3,24 +3,23 @@ package com.bibli.bia.Model;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-@Document(collection = "libros_fisicos") // Colección en MongoDB
+@Document(collection = "libros_fisicos")
 public class LibroFisicoModel {
 
     @Id
-    private String id; // ID del libro físico (en MongoDB es un String)
+    private String id;
 
     private String titulo;
     private String autor;
     private String descripcion;
     private String categoria;
-    private int stock; // Cantidad disponible
-    private int reservado; // Cantidad reservada
+    private int stock;// Cantidad disponible
+    private int reservado;
 
 
-    // Constructor vacío
     public LibroFisicoModel() {}
 
-    // Constructor con todos los campos
+
     public LibroFisicoModel(String titulo, String autor, String descripcion, String categoria, int stock, int reservado) {
         this.titulo = titulo;
         this.autor = autor;
@@ -31,7 +30,7 @@ public class LibroFisicoModel {
 
     }
 
-    // Getters y Setters
+
     public String getId() {
         return id;
     }

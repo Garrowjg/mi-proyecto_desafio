@@ -43,7 +43,7 @@
     <div class="reserva-container">
         <h2 class="section-title">Reserva tu Libro Favorito</h2>
 
-        <!-- Filtros -->
+
         <div class="filtros-container">
             <div class="filtro-grupo">
                 <label for="categoria">Categoría:</label>
@@ -110,133 +110,150 @@
     <p>&copy; 2024 BookLab Biblioteca. Todos los derechos reservados.</p>
 </footer>
 
-<!-- Mensaje de éxito o error -->
+
 <div id="mensaje-reserva"></div>
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
     $(document).ready(function() {
-        let todosLosLibros = [];
-        let librosFiltrados = [];
 
-        $('#categoria').change(function() {
-            const categoria = $(this).val();
-            if (categoria) {
-                cargarLibros(categoria);
-                $('#grupo-busqueda').show();
-            } else {
-                $('#resultados-container').hide();
-                $('#grupo-busqueda').hide();
-            }
+      // Variables para almacenar todos los libros y los que coincidan con la búsqueda
+      let todosLosLibros = [];
+      let librosFiltrados = [];
+
+      // Cuando el usuario cambia la categoría seleccionada
+      $('#categoria').change(function() {
+        const categoria = $(this).val(); // Obtiene la categoría seleccionada
+
+        if (categoria) {
+          cargarLibros(categoria);       // Carga los libros de esa categoría
+          $('#grupo-busqueda').show();   // Muestra el campo de búsqueda
+        } else {
+          $('#resultados-container').hide(); // Oculta resultados si no se eligió nada
+          $('#grupo-busqueda').hide();       // Oculta también el campo de búsqueda
+        }
+      });
+
+      // Cada vez que el usuario escribe en el campo de búsqueda
+      $('#busqueda').keyup(function() {
+        filtrarLibros(); // Filtra los libros en tiempo real
+      });
+
+      // Al hacer clic en el botón "Cancelar reserva", se oculta el formulario
+      $('#cancelar-reserva').click(function() {
+        $('#formulario-reserva').hide();
+      });
+
+      // Al enviar el formulario de reserva
+      $('#reserva-form').submit(function(e) {
+        e.preventDefault();  // Evita que el formulario se envíe de forma tradicional
+        enviarReserva();     // Envía los datos por AJAX
+      });
+
+      // Función que carga los libros desde el backend usando AJAX
+      function cargarLibros(categoria) {
+        $.ajax({
+          url: '/api/cargarLibrosPorCategoria',
+          type: 'GET',
+          data: { categoria: categoria },
+          beforeSend: function() {
+            $('#lista-libros').html('<div class="cargando">Cargando libros...</div>'); // Muestra mensaje de carga
+          },
+          success: function(data) {
+            todosLosLibros = data;      // Guarda todos los libros
+            librosFiltrados = data;     // Inicialmente, los filtrados son todos
+            mostrarLibros(data);        // Muestra los libros en pantalla
+            $('#categoria-seleccionada').val(categoria); // Guarda la categoría en un campo oculto
+            $('#resultados-container').show();           // Muestra el contenedor de resultados
+          },
+          error: function() {
+            mostrarMensajeReserva('Error al cargar los libros', true); // Muestra error si falla la petición
+          }
+        });
+      }
+
+      // Función que filtra los libros según el texto ingresado por el usuario
+      function filtrarLibros() {
+        const busqueda = $('#busqueda').val().toLowerCase();
+
+        if (busqueda === '') {
+          librosFiltrados = todosLosLibros;
+        } else {
+          librosFiltrados = todosLosLibros.filter(function(libro) {
+            return libro.titulo.toLowerCase().includes(busqueda) ||
+                   (libro.autor && libro.autor.toLowerCase().includes(busqueda));
+          });
+        }
+
+        mostrarLibros(librosFiltrados); // Muestra los libros filtrados
+      }
+
+      // Función que muestra los libros en pantalla
+      function mostrarLibros(libros) {
+        const $lista = $('#lista-libros');
+        $lista.empty(); // Limpia el contenedor
+
+        if (libros.length === 0) {
+          $lista.html('<div class="sin-resultados">No se encontraron libros</div>');
+          $('#contador').text('0 libros encontrados');
+          return;
+        }
+
+        $('#contador').text(libros.length + ' libros encontrados');
+
+        // Recorre la lista de libros y crea una "tarjeta" por cada uno
+        libros.forEach(function(libro) {
+          $lista.append(`
+            <div class="libro-item" data-titulo="${libro.titulo}">
+              <h3>${libro.titulo}</h3>
+              ${libro.autor ? `<p><strong>Autor:</strong> ${libro.autor}</p>` : ''}
+              ${libro.anioPublicacion ? `<p><strong>Año:</strong> ${libro.anioPublicacion}</p>` : ''}
+              <button class="btn-seleccionar">Seleccionar</button>
+            </div>
+          `);
         });
 
-        $('#busqueda').keyup(function() {
-            filtrarLibros();
+        // Asigna la función al botón de "Seleccionar"
+        $('.btn-seleccionar').click(function() {
+          const titulo = $(this).closest('.libro-item').data('titulo');
+          $('#libro-seleccionado').val(titulo);  // Llena el campo oculto con el título
+          $('#formulario-reserva').show();       // Muestra el formulario
+          // Desplaza la página hacia el formulario
+          $('html, body').animate({
+            scrollTop: $('#formulario-reserva').offset().top
+          }, 500);
         });
+      }
 
-        $('#cancelar-reserva').click(function() {
-            $('#formulario-reserva').hide();
+      // Envía el formulario de reserva al backend usando AJAX
+      function enviarReserva() {
+        const formData = $('#reserva-form').serialize(); // Serializa los datos del formulario
+
+        $.ajax({
+          url: '/api/guardarReservaUsuario',
+          type: 'POST',
+          data: formData,
+          success: function(response) {
+            $('#reserva-form')[0].reset();      // Limpia el formulario
+            $('#formulario-reserva').hide();    // Oculta el formulario
+            mostrarMensajeReserva('Reserva realizada con éxito'); // Muestra mensaje de éxito
+          },
+          error: function() {
+            mostrarMensajeReserva('Error al realizar la reserva', true); // Muestra error
+          }
         });
+      }
 
-        $('#reserva-form').submit(function(e) {
-            e.preventDefault();
-            enviarReserva();
-        });
+      // Muestra un mensaje en pantalla (éxito o error)
+      function mostrarMensajeReserva(mensaje, esError = false) {
+        const $mensaje = $('#mensaje-reserva');
+        $mensaje.text(mensaje);
+        $mensaje.css('background-color', esError ? '#e74c3c' : '#4CAF50'); // Rojo si es error, verde si es éxito
+        $mensaje.fadeIn(300).delay(3000).fadeOut(500); // Muestra el mensaje por 3 segundos
+      }
 
-        function cargarLibros(categoria) {
-            $.ajax({
-                url: '/api/cargarLibrosPorCategoria',
-                type: 'GET',
-                data: { categoria: categoria },
-                beforeSend: function() {
-                    $('#lista-libros').html('<div class="cargando">Cargando libros...</div>');
-                },
-                success: function(data) {
-                    todosLosLibros = data;
-                    librosFiltrados = data;
-                    mostrarLibros(data);
-                    $('#categoria-seleccionada').val(categoria);
-                    $('#resultados-container').show();
-                },
-                error: function() {
-                    mostrarMensajeReserva('Error al cargar los libros', true);
-                }
-            });
-        }
-
-        function filtrarLibros() {
-            const busqueda = $('#busqueda').val().toLowerCase();
-
-            if (busqueda === '') {
-                librosFiltrados = todosLosLibros;
-            } else {
-                librosFiltrados = todosLosLibros.filter(function(libro) {
-                    return libro.titulo.toLowerCase().includes(busqueda) ||
-                           (libro.autor && libro.autor.toLowerCase().includes(busqueda));
-                });
-            }
-
-            mostrarLibros(librosFiltrados);
-        }
-
-        function mostrarLibros(libros) {
-            const $lista = $('#lista-libros');
-            $lista.empty();
-
-            if (libros.length === 0) {
-                $lista.html('<div class="sin-resultados">No se encontraron libros</div>');
-                $('#contador').text('0 libros encontrados');
-                return;
-            }
-
-            $('#contador').text(libros.length + ' libros encontrados');
-
-            libros.forEach(function(libro) {
-                $lista.append(`
-                    <div class="libro-item" data-titulo="${libro.titulo}">
-                        <h3>${libro.titulo}</h3>
-                        ${libro.autor ? `<p><strong>Autor:</strong> ${libro.autor}</p>` : ''}
-                        ${libro.anioPublicacion ? `<p><strong>Año:</strong> ${libro.anioPublicacion}</p>` : ''}
-                        <button class="btn-seleccionar">Seleccionar</button>
-                    </div>
-                `);
-            });
-
-            $('.btn-seleccionar').click(function() {
-                const titulo = $(this).closest('.libro-item').data('titulo');
-                $('#libro-seleccionado').val(titulo);
-                $('#formulario-reserva').show();
-                $('html, body').animate({
-                    scrollTop: $('#formulario-reserva').offset().top
-                }, 500);
-            });
-        }
-
-        function enviarReserva() {
-            const formData = $('#reserva-form').serialize();
-
-            $.ajax({
-                url: '/api/guardarReservaUsuario',
-                type: 'POST',
-                data: formData,
-                success: function(response) {
-                    $('#reserva-form')[0].reset();
-                    $('#formulario-reserva').hide();
-                    mostrarMensajeReserva('Reserva realizada con éxito');
-                },
-                error: function() {
-                    mostrarMensajeReserva('Error al realizar la reserva', true);
-                }
-            });
-        }
-
-        function mostrarMensajeReserva(mensaje, esError = false) {
-            const $mensaje = $('#mensaje-reserva');
-            $mensaje.text(mensaje);
-            $mensaje.css('background-color', esError ? '#e74c3c' : '#4CAF50');
-            $mensaje.fadeIn(300).delay(3000).fadeOut(500);
-        }
     });
 </script>
+
 </body>
 </html>

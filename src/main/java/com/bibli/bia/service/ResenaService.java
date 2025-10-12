@@ -13,12 +13,12 @@ public class ResenaService {
     @Autowired
     private Resenarepository resenarepository;
 
-    // Guardar reseña
+
     public void guardarResena(ResenaModel resena) {
         resenarepository.save(resena);
     }
 
-    // Obtener todas las reseñas
+
     public List<ResenaModel> obtenerTodasLasResenas() {
         return resenarepository.findAll();
     }

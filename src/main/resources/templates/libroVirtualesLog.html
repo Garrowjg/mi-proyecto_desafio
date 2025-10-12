@@ -7,175 +7,6 @@
     <link rel="stylesheet" href="/estilos/libros.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <style>
-        /* Estilos mejorados para el sistema de búsqueda */
-        .search-container {
-            max-width: 1200px;
-            margin: 40px auto;
-            padding: 0 20px;
-        }
-
-        .search-box {
-            display: flex;
-            gap: 10px;
-            margin-bottom: 25px;
-            position: relative;
-        }
-
-        .search-input-container {
-            flex: 1;
-            position: relative;
-        }
-
-        .search-input {
-            width: 100%;
-            padding: 15px 50px 15px 20px;
-            border: 2px solid #e0e0e0;
-            border-radius: 50px;
-            font-size: 1rem;
-            transition: all 0.3s ease;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
-        }
-
-        .search-input:focus {
-            outline: none;
-            border-color: #27ae60;
-            box-shadow: 0 2px 15px rgba(39, 174, 96, 0.2);
-        }
-
-        .search-icon {
-            position: absolute;
-            right: 20px;
-            top: 50%;
-            transform: translateY(-50%);
-            color: #7f8c8d;
-        }
-
-        .clear-search {
-            position: absolute;
-            right: 45px;
-            top: 50%;
-            transform: translateY(-50%);
-            background: none;
-            border: none;
-            color: #7f8c8d;
-            cursor: pointer;
-            display: none;
-        }
-
-        .clear-search:hover {
-            color: #e74c3c;
-        }
-
-        .search-button {
-            padding: 0 25px;
-            background-color: #27ae60;
-            color: white;
-            border: none;
-            border-radius: 50px;
-            cursor: pointer;
-            font-size: 1rem;
-            font-weight: 600;
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 6px rgba(39, 174, 96, 0.2);
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .search-button:hover {
-            background-color: #219150;
-            transform: translateY(-2px);
-            box-shadow: 0 6px 8px rgba(39, 174, 96, 0.3);
-        }
-
-        .search-filters {
-            display: flex;
-            gap: 15px;
-            margin-bottom: 30px;
-            flex-wrap: wrap;
-            justify-content: center;
-        }
-
-        .filter-option {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            background: #ffffff;
-            padding: 10px 20px;
-            border-radius: 50px;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-            transition: all 0.3s ease;
-        }
-
-        .filter-option:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
-        }
-
-        .filter-option input[type="checkbox"] {
-            width: 18px;
-            height: 18px;
-            accent-color: #27ae60;
-            cursor: pointer;
-        }
-
-        .filter-option label {
-            font-size: 0.95rem;
-            font-weight: 500;
-            color: #2c3e50;
-            cursor: pointer;
-        }
-
-        .no-results {
-            text-align: center;
-            padding: 60px 20px;
-            font-size: 1.2rem;
-            color: #7f8c8d;
-            display: none;
-            background: #ffffff;
-            border-radius: 10px;
-            margin: 20px 0;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
-        }
-
-        .no-results i {
-            font-size: 2.5rem;
-            color: #bdc3c7;
-            margin-bottom: 20px;
-            display: block;
-        }
-
-        .highlight {
-            background-color: #f1c40f;
-            font-weight: bold;
-            padding: 2px 4px;
-            border-radius: 3px;
-        }
-
-        /* Mejoras para tablas */
-        .book-table {
-            width: 100%;
-            margin-top: 30px;
-            border-collapse: collapse;
-        }
-
-        .book-table th, .book-table td {
-            padding: 12px 15px;
-            text-align: left;
-            border-bottom: 1px solid #e0e0e0;
-        }
-
-        .book-table th {
-            background-color: #27ae60;
-            color: white;
-            font-weight: 600;
-        }
-
-        .book-table tr:hover {
-            background-color: #f8f9fa;
-        }
-    </style>
 </head>
 <body>
 
@@ -192,7 +23,6 @@
     </nav>
 </header>
 
-<!-- Sistema de Búsqueda Mejorado -->
 <div class="search-container">
     <div class="search-box">
         <div class="search-input-container">
@@ -208,30 +38,12 @@
     </div>
 
     <div class="search-filters">
-        <div class="filter-option">
-            <input type="checkbox" id="filterNovelas" checked>
-            <label for="filterNovelas">Novelas</label>
-        </div>
-        <div class="filter-option">
-            <input type="checkbox" id="filterCiencia" checked>
-            <label for="filterCiencia">Ciencia</label>
-        </div>
-        <div class="filter-option">
-            <input type="checkbox" id="filterHistoria" checked>
-            <label for="filterHistoria">Historia</label>
-        </div>
-        <div class="filter-option">
-            <input type="checkbox" id="filterArte" checked>
-            <label for="filterArte">Arte</label>
-        </div>
-        <div class="filter-option">
-            <input type="checkbox" id="filterFantasía" checked>
-            <label for="filterFantasía">Fantasía</label>
-        </div>
-        <div class="filter-option">
-            <input type="checkbox" id="filterFilosofia" checked>
-            <label for="filterFilosofia">Filosofía</label>
-        </div>
+        <div class="filter-option"><input type="checkbox" id="filterNovelas" checked><label for="filterNovelas">Novelas</label></div>
+        <div class="filter-option"><input type="checkbox" id="filterCiencia" checked><label for="filterCiencia">Ciencia</label></div>
+        <div class="filter-option"><input type="checkbox" id="filterHistoria" checked><label for="filterHistoria">Historia</label></div>
+        <div class="filter-option"><input type="checkbox" id="filterArte" checked><label for="filterArte">Arte</label></div>
+        <div class="filter-option"><input type="checkbox" id="filterFantasía" checked><label for="filterFantasía">Fantasía</label></div>
+        <div class="filter-option"><input type="checkbox" id="filterFilosofia" checked><label for="filterFilosofia">Filosofía</label></div>
     </div>
 </div>
 
@@ -247,13 +59,7 @@
     <div class="table-container">
         <table class="book-table">
             <thead>
-            <tr>
-                <th>Título</th>
-                <th>Autor</th>
-                <th>Descripción</th>
-                <th>Categoría</th>
-                <th>Acción</th>
-            </tr>
+            <tr><th>Título</th><th>Autor</th><th>Descripción</th><th>Categoría</th><th>Acción</th></tr>
             </thead>
             <tbody>
             <tr th:each="libro : ${librosNovela}" class="book-row"
@@ -261,40 +67,42 @@
                 data-author="${libro.autor.toLowerCase()}"
                 data-category="Novelas"
                 data-desc="${libro.descripcion.toLowerCase()}">
-                <td class="book-title">[[${libro.titulo}]]</td>
-                <td class="book-author">[[${libro.autor}]]</td>
-                <td class="book-desc">[[${libro.descripcion}]]</td>
-                <td class="book-category">[[${libro.categoria}]]</td>
-                <td><a th:href="${libro.url}" target="_blank" class="download-link">Leer</a></td>
-            </tr>
-            </tbody>
-        </table>
-    </div>
-</section>
-<section class="section ciencia-section">
-    <h2 class="section-title">Ciencia</h2>
-    <div class="table-container">
-        <table class="book-table">
-            <thead>
-            <tr>
-                <th>Título</th>
-                <th>Autor</th>
-                <th>Descripción</th>
-                <th>Categoría</th>
-                <th>Acción</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr th:each="libro : ${librosCiencia}" class="book-row" data-title="${libro.titulo}" data-author="${libro.autor}" data-category="Ciencia" data-desc="${libro.descripcion}">
-                <td th:text="${libro.titulo}">Título del Libro</td>
-                <td th:text="${libro.autor}">Autor del Libro</td>
-                <td th:text="${libro.descripcion}">Descripción del Libro</td>
+                <td th:text="${libro.titulo}">Título</td>
+                <td th:text="${libro.autor}">Autor</td>
+                <td th:text="${libro.descripcion}">Descripción</td>
                 <td th:text="${libro.categoria}">Categoría</td>
                 <td><a th:href="${libro.url}" target="_blank" class="download-link">Leer</a></td>
             </tr>
             </tbody>
         </table>
     </div>
+    <div class="pagination"></div>
+</section>
+
+<!-- Repetir secciones para Ciencia, Historia, Arte, Fantasía y Filosofía -->
+<section class="section ciencia-section">
+    <h2 class="section-title">Ciencia</h2>
+    <div class="table-container">
+        <table class="book-table">
+            <thead>
+            <tr><th>Título</th><th>Autor</th><th>Descripción</th><th>Categoría</th><th>Acción</th></tr>
+            </thead>
+            <tbody>
+            <tr th:each="libro : ${librosCiencia}" class="book-row"
+                data-title="${libro.titulo.toLowerCase()}"
+                data-author="${libro.autor.toLowerCase()}"
+                data-category="Ciencia"
+                data-desc="${libro.descripcion.toLowerCase()}">
+                <td th:text="${libro.titulo}">Título</td>
+                <td th:text="${libro.autor}">Autor</td>
+                <td th:text="${libro.descripcion}">Descripción</td>
+                <td th:text="${libro.categoria}">Categoría</td>
+                <td><a th:href="${libro.url}" target="_blank" class="download-link">Leer</a></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="pagination"></div>
 </section>
 
 <section class="section historia-section">
@@ -302,25 +110,24 @@
     <div class="table-container">
         <table class="book-table">
             <thead>
-            <tr>
-                <th>Título</th>
-                <th>Autor</th>
-                <th>Descripción</th>
-                <th>Categoría</th>
-                <th>Acción</th>
-            </tr>
+            <tr><th>Título</th><th>Autor</th><th>Descripción</th><th>Categoría</th><th>Acción</th></tr>
             </thead>
             <tbody>
-            <tr th:each="libro : ${librosHistoria}" class="book-row" data-title="${libro.titulo}" data-author="${libro.autor}" data-category="Historia" data-desc="${libro.descripcion}">
-                <td th:text="${libro.titulo}">Título del Libro</td>
-                <td th:text="${libro.autor}">Autor del Libro</td>
-                <td th:text="${libro.descripcion}">Descripción del Libro</td>
+            <tr th:each="libro : ${librosHistoria}" class="book-row"
+                data-title="${libro.titulo.toLowerCase()}"
+                data-author="${libro.autor.toLowerCase()}"
+                data-category="Historia"
+                data-desc="${libro.descripcion.toLowerCase()}">
+                <td th:text="${libro.titulo}">Título</td>
+                <td th:text="${libro.autor}">Autor</td>
+                <td th:text="${libro.descripcion}">Descripción</td>
                 <td th:text="${libro.categoria}">Categoría</td>
                 <td><a th:href="${libro.url}" target="_blank" class="download-link">Leer</a></td>
             </tr>
             </tbody>
         </table>
     </div>
+    <div class="pagination"></div>
 </section>
 
 <section class="section arte-section">
@@ -328,40 +135,32 @@
     <div class="table-container">
         <table class="book-table">
             <thead>
-            <tr>
-                <th>Título</th>
-                <th>Autor</th>
-                <th>Descripción</th>
-                <th>Categoría</th>
-                <th>Acción</th>
-            </tr>
+            <tr><th>Título</th><th>Autor</th><th>Descripción</th><th>Categoría</th><th>Acción</th></tr>
             </thead>
             <tbody>
-            <tr th:each="libro : ${librosArte}" class="book-row" data-title="${libro.titulo}" data-author="${libro.autor}" data-category="Arte" data-desc="${libro.descripcion}">
-                <td th:text="${libro.titulo}">Título del Libro</td>
-                <td th:text="${libro.autor}">Autor del Libro</td>
-                <td th:text="${libro.descripcion}">Descripción del Libro</td>
+            <tr th:each="libro : ${librosArte}" class="book-row"
+                data-title="${libro.titulo.toLowerCase()}"
+                data-author="${libro.autor.toLowerCase()}"
+                data-category="Arte"
+                data-desc="${libro.descripcion.toLowerCase()}">
+                <td th:text="${libro.titulo}">Título</td>
+                <td th:text="${libro.autor}">Autor</td>
+                <td th:text="${libro.descripcion}">Descripción</td>
                 <td th:text="${libro.categoria}">Categoría</td>
                 <td><a th:href="${libro.url}" target="_blank" class="download-link">Leer</a></td>
             </tr>
             </tbody>
         </table>
     </div>
+    <div class="pagination"></div>
 </section>
 
-<!-- SECCIÓN FANTASÍA (ya estaba correcto) -->
 <section class="section fantasia-section">
     <h2 class="section-title">Fantasía</h2>
     <div class="table-container">
         <table class="book-table">
             <thead>
-            <tr>
-                <th>Título</th>
-                <th>Autor</th>
-                <th>Descripción</th>
-                <th>Categoría</th>
-                <th>Acción</th>
-            </tr>
+            <tr><th>Título</th><th>Autor</th><th>Descripción</th><th>Categoría</th><th>Acción</th></tr>
             </thead>
             <tbody>
             <tr th:each="libro : ${librosFantasía}" class="book-row"
@@ -369,54 +168,46 @@
                 data-author="${libro.autor.toLowerCase()}"
                 data-category="Fantasía"
                 data-desc="${libro.descripcion.toLowerCase()}">
-                <td th:text="${libro.titulo}">Título del Libro</td>
-                <td th:text="${libro.autor}">Autor del Libro</td>
-                <td th:text="${libro.descripcion}">Descripción del Libro</td>
+                <td th:text="${libro.titulo}">Título</td>
+                <td th:text="${libro.autor}">Autor</td>
+                <td th:text="${libro.descripcion}">Descripción</td>
                 <td th:text="${libro.categoria}">Categoría</td>
                 <td><a th:href="${libro.url}" target="_blank" class="download-link">Leer</a></td>
             </tr>
             </tbody>
         </table>
     </div>
+    <div class="pagination"></div>
 </section>
 
-<!-- SECCIÓN FILOSOFÍA (corregido) -->
-<!-- SECCIÓN FILOSOFÍA (modificado sin tilde) -->
 <section class="section filosofia-section">
-    <h2 class="section-title">Filosofia</h2> <!-- Sin tilde -->
+    <h2 class="section-title">Filosofía</h2>
     <div class="table-container">
         <table class="book-table">
             <thead>
-            <tr>
-                <th>Título</th>
-                <th>Autor</th>
-                <th>Descripción</th>
-                <th>Categoría</th>
-                <th>Acción</th>
-            </tr>
+            <tr><th>Título</th><th>Autor</th><th>Descripción</th><th>Categoría</th><th>Acción</th></tr>
             </thead>
             <tbody>
             <tr th:each="libro : ${librosFilosofia}" class="book-row"
                 data-title="${libro.titulo.toLowerCase()}"
                 data-author="${libro.autor.toLowerCase()}"
-                data-category="Filosofia" >
-            data-desc="${libro.descripcion.toLowerCase()}">
-            <td th:text="${libro.titulo}">Título del Libro</td>
-            <td th:text="${libro.autor}">Autor del Libro</td>
-            <td th:text="${libro.descripcion}">Descripción del Libro</td>
-            <td th:text="${libro.categoria}">Categoría</td>
-            <td><a th:href="${libro.url}" target="_blank" class="download-link">Leer</a></td>
+                data-category="Filosofía"
+                data-desc="${libro.descripcion.toLowerCase()}">
+                <td th:text="${libro.titulo}">Título</td>
+                <td th:text="${libro.autor}">Autor</td>
+                <td th:text="${libro.descripcion}">Descripción</td>
+                <td th:text="${libro.categoria}">Categoría</td>
+                <td><a th:href="${libro.url}" target="_blank" class="download-link">Leer</a></td>
             </tr>
             </tbody>
         </table>
     </div>
+    <div class="pagination"></div>
 </section>
+
 <footer>
     <p>&copy; 2024 BookLab Biblioteca. Todos los derechos reservados.</p>
 </footer>
-
-<!-- Repetir para las otras secciones (Ciencia, Historia, Arte, Fantasía, Filosofía) -->
-<!-- ... -->
 
 <script>
     document.addEventListener('DOMContentLoaded', function() {
@@ -424,10 +215,8 @@
         const searchButton = document.getElementById('searchButton');
         const clearSearch = document.getElementById('clearSearch');
         const noResults = document.getElementById('noResults');
-        const bookRows = document.querySelectorAll('.book-row');
         const sections = document.querySelectorAll('.section');
 
-        // Filtros por categoría
         const categoryFilters = {
             novelas: document.getElementById('filterNovelas'),
             ciencia: document.getElementById('filterCiencia'),
@@ -437,30 +226,12 @@
             filosofia: document.getElementById('filterFilosofia')
         };
 
-        // Mostrar/ocultar botón de limpiar
-        searchInput.addEventListener('input', function() {
-            clearSearch.style.display = this.value.trim() !== '' ? 'block' : 'none';
-        });
-
-        // Limpiar búsqueda
-        clearSearch.addEventListener('click', function() {
-            searchInput.value = '';
-            clearSearch.style.display = 'none';
-            performSearch();
-            searchInput.focus();
-        });
-
-        // Función para normalizar texto (eliminar acentos y hacer minúsculas)
         function normalizeText(text) {
             return text.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
         }
 
-        // Función para realizar la búsqueda
         function performSearch() {
             const searchTerm = normalizeText(searchInput.value.trim());
-            let hasResults = false;
-
-            // Obtener categorías seleccionadas
             const selectedCategories = [];
             if (categoryFilters.novelas.checked) selectedCategories.push('Novelas');
             if (categoryFilters.ciencia.checked) selectedCategories.push('Ciencia');
@@ -469,77 +240,77 @@
             if (categoryFilters.fantasia.checked) selectedCategories.push('Fantasía');
             if (categoryFilters.filosofia.checked) selectedCategories.push('Filosofía');
 
-            // Ocultar todas las secciones inicialmente
+            let hasResults = false;
             sections.forEach(section => {
-                section.style.display = 'none';
-            });
-
-            // Mostrar secciones de categorías seleccionadas
-            selectedCategories.forEach(cat => {
-                const section = document.querySelector(`.${cat.toLowerCase()}-section`);
-                if (section) section.style.display = 'block';
-            });
-
-            // Buscar en todos los libros
-            bookRows.forEach(row => {
-                const title = row.getAttribute('data-title');
-                const author = row.getAttribute('data-author');
-                const category = row.getAttribute('data-category');
-                const description = row.getAttribute('data-desc');
-
-                // Verificar si la categoría está seleccionada
-                const isCategorySelected = selectedCategories.includes(category);
-
-                // Verificar coincidencia en búsqueda
-                const matchesSearch = searchTerm === '' ||
-                                    title.includes(searchTerm) ||
-                                    author.includes(searchTerm) ||
-                                    normalizeText(category).includes(searchTerm) ||
-                                    description.includes(searchTerm);
-
-                // Mostrar/ocultar fila según coincidencias
-                if (matchesSearch && isCategorySelected) {
-                    row.style.display = '';
-                    hasResults = true;
-
-                    // Resaltar texto coincidente
-                    if (searchTerm !== '') {
-                        const cells = row.querySelectorAll('td:not(:last-child)');
-                        cells.forEach(cell => {
-                            const text = cell.textContent;
-                            const highlightedText = text.replace(
-                                new RegExp(searchInput.value.trim(), 'gi'),
-                                match => `<span class="highlight">${match}</span>`
-                            );
-                            cell.innerHTML = highlightedText;
-                        });
-                    }
+                const category = section.classList[1].split('-')[0];
+                const categoryName = category.charAt(0).toUpperCase() + category.slice(1);
+                if (selectedCategories.includes(categoryName)) {
+                    section.style.display = 'block';
+                    const rows = Array.from(section.querySelectorAll('tbody tr'));
+                    const filteredRows = rows.filter(row => {
+                        const title = row.dataset.title;
+                        const author = row.dataset.author;
+                        const desc = row.dataset.desc;
+                        return searchTerm === '' || title.includes(searchTerm) || author.includes(searchTerm) || desc.includes(searchTerm);
+                    });
+                    rows.forEach(r => r.style.display = 'none'); // ocultar todos
+                    paginateRows(filteredRows, section);
+                    if (filteredRows.length > 0) hasResults = true;
                 } else {
-                    row.style.display = 'none';
+                    section.style.display = 'none';
                 }
             });
 
-            // Mostrar mensaje si no hay resultados
             noResults.style.display = hasResults ? 'none' : 'block';
         }
 
-        // Event listeners
-        searchButton.addEventListener('click', performSearch);
-        searchInput.addEventListener('keyup', function(e) {
-            if (e.key === 'Enter') {
-                performSearch();
+        function paginateRows(rows, section) {
+            const paginationDiv = section.querySelector('.pagination');
+            const rowsPerPage = 5;
+            let currentPage = 1;
+
+            function showPage(page) {
+                const start = (page - 1) * rowsPerPage;
+                const end = start + rowsPerPage;
+                rows.forEach((row, index) => row.style.display = index >= start && index < end ? '' : 'none');
+                currentPage = page;
+                renderPagination();
             }
+
+            function renderPagination() {
+                const totalPages = Math.ceil(rows.length / rowsPerPage);
+                paginationDiv.innerHTML = '';
+                for (let i = 1; i <= totalPages; i++) {
+                    const btn = document.createElement('button');
+                    btn.textContent = i;
+                    btn.className = i === currentPage ? 'active' : '';
+                    btn.addEventListener('click', () => showPage(i));
+                    paginationDiv.appendChild(btn);
+                }
+            }
+
+            showPage(1);
+        }
+
+        searchInput.addEventListener('input', function() {
+            clearSearch.style.display = this.value.trim() !== '' ? 'block' : 'none';
         });
 
-        // Event listeners para filtros
-        Object.values(categoryFilters).forEach(filter => {
-            filter.addEventListener('change', performSearch);
+        clearSearch.addEventListener('click', function() {
+            searchInput.value = '';
+            clearSearch.style.display = 'none';
+            performSearch();
+            searchInput.focus();
         });
 
-        // Búsqueda inicial
+        searchButton.addEventListener('click', performSearch);
+        searchInput.addEventListener('keyup', e => { if (e.key === 'Enter') performSearch(); });
+        Object.values(categoryFilters).forEach(filter => filter.addEventListener('change', performSearch));
+
         performSearch();
     });
 </script>
 
 </body>
 </html>
+

@@ -6,5 +6,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface RespuestaDashboardRepository extends MongoRepository<RespuestaDashboard, String> {
-    // Aquí puedes agregar consultas personalizadas si es necesario
+
 }

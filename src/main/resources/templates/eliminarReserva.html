@@ -31,7 +31,7 @@
     <div class="form-nueva-reserva">
       <h3>¿Estás seguro de que deseas eliminar esta reserva?</h3>
       <form action="/api/eliminarReserva" method="post">
-        <!-- Enviar el ID de la reserva a través de un campo oculto -->
+
         <input type="hidden" name="id" value="${reserva.id}">
 
         <p><strong>Usuario:</strong> ${reserva.usuario}</p>

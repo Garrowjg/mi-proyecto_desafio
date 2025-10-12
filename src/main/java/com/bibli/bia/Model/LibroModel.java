@@ -7,19 +7,19 @@ import org.springframework.data.mongodb.core.mapping.Document;
 public class LibroModel {
 
     @Id
-    private String id; // Mongo usa String para el id (ObjectId)
+    private String id;
 
     private String titulo;
     private String url;
     private String autor;
     private String descripcion;
-    private String categoria; // Añadido: categoria del libro (ej. novela, ciencia, historia)
+    private String categoria;
 
-    // Constructor vacío
+
     public LibroModel() {
     }
 
-    // Constructor con todos los campos
+
     public LibroModel(String titulo, String url, String autor, String descripcion, String categoria) {
         this.titulo = titulo;
         this.url = url;
@@ -28,7 +28,7 @@ public class LibroModel {
         this.categoria = categoria;
     }
 
-    // Getters y Setters
+
     public String getId() {
         return id;
     }

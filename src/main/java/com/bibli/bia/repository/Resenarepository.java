@@ -6,6 +6,6 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface Resenarepository extends MongoRepository<ResenaModel, String> {
-    // Aquí puedes agregar consultas personalizadas si es necesario
+
 
 }

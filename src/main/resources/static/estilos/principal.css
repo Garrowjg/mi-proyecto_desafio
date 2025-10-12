@@ -275,3 +275,66 @@ footer {
     padding: 20px;
     font-size: 0.9rem;
 }
+/* 🔹 NAV Sticky Moderno */
+.et-hero-tabs {
+    background: #ffffff;
+    text-align: center;
+    position: relative;
+    padding: 10px 0;
+}
+
+.et-hero-tabs .logo h1 {
+    color: #2c3e50;
+    font-size: 2rem;
+}
+
+.et-hero-tabs .logo span {
+    color: #27ae60;
+}
+
+.et-hero-tabs-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: #fff;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.et-hero-tab {
+    flex: 1;
+    text-align: center;
+    padding: 15px;
+    color: #2c3e50;
+    font-weight: 500;
+    text-decoration: none;
+    transition: all 0.3s;
+}
+
+.et-hero-tab:hover {
+    background: #27ae60;
+    color: white;
+}
+
+.et-hero-tab-slider {
+    position: absolute;
+    bottom: 0;
+    height: 4px;
+    background: #27ae60;
+    transition: left 0.3s, width 0.3s;
+}
+
+.login-btn {
+    background: #27ae60;
+    color: white !important;
+    border-radius: 25px;
+    margin-right: 10px;
+    transition: background 0.3s;
+}
+
+.login-btn:hover {
+    background: #219150;
+}
+

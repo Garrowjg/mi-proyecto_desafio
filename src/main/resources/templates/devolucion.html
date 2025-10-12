@@ -166,7 +166,7 @@
 
 
 <div class="container">
-    <!-- Reservas -->
+
     <div class="reservas-list">
         <h2>Reservas Activas</h2>
         <div class="search-box">
@@ -200,7 +200,7 @@
         </table>
     </div>
 
-    <!-- Formulario -->
+
     <div class="devolucion-form">
         <h2>Procesar Devolución</h2>
         <form id="devolucionForm" th:action="@{/api/procesar-devolucion}" method="post">
@@ -234,42 +234,67 @@
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
+    // Espera a que el documento esté completamente cargado
     $(document).ready(function () {
+
+      // Cuando el usuario escribe algo en el campo con id "searchInput"
       $("#searchInput").on("keyup", function () {
+        // Obtiene el valor ingresado y lo convierte a minúsculas para comparar
         const value = $(this).val().toLowerCase();
+
+        // Recorre todas las filas de la tabla con id "reservasTable"
         $("#reservasTable tr").filter(function () {
+          // Muestra u oculta la fila dependiendo de si el texto de la fila contiene el valor buscado
           $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1);
         });
       });
 
+      // Cuando se hace clic en un botón con clase "seleccionar-btn"
       $(document).on("click", ".seleccionar-btn", function () {
+        // Obtiene los datos del botón: nombre del usuario, libro, fecha de reserva y id
         const nombre = $(this).data("nombre");
         const libro = $(this).data("libro");
         const fechaReservaStr = $(this).data("fechareserva");
         const id = $(this).data("id");
 
+        // Convierte la fecha de reserva a objeto Date
         const fechaReserva = new Date(fechaReservaStr);
-        const fechaDevolucion = new Date();
-        const diffTime = fechaDevolucion - fechaReserva;
-        const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
 
+        // Obtiene la fecha actual (cuando se hace clic)
+        const fechaDevolucion = new Date();
+
+        // Calcula la diferencia en milisegundos entre las dos fechas
+        const diffTime = fechaDevolucion - fechaReserva;
+
+        // Convierte esa diferencia a días
+        const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24)); // 1 día = 86400000 ms
+
+        // Rellena los campos del formulario con los datos seleccionados
         $("#reservaId").val(id);
         $("#nombre").val(nombre);
         $("#libro").val(libro);
-        $("#fechaReserva").val(fechaReserva.toLocaleDateString('es-CO'));
+        $("#fechaReserva").val(fechaReserva.toLocaleDateString('es-CO')); // Muestra la fecha en formato colombiano
 
+        // Si han pasado más de 7 días desde la reserva, se aplica una multa
         if (diffDays > 7) {
-          const diasRetraso = diffDays - 7;
-          const valorMulta = diasRetraso * 5000;
+          const diasRetraso = diffDays - 7; // Calcula cuántos días de retraso hay
+          const valorMulta = diasRetraso * 5000; // Calcula el valor de la multa (5000 por día)
+
+          // Muestra los valores calculados en el formulario
           $("#diasRetraso").val(diasRetraso);
           $("#valorMulta").val(valorMulta);
+
+          // Muestra la sección de multa
           $("#multaSection").show();
         } else {
+          // Si no hay retraso, oculta la sección de multa
           $("#multaSection").hide();
         }
       });
+
     });
 </script>
+
 
 </body>
 </html>
